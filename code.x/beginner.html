@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Beginner — Planet or Pizza</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#00142e;color:#e8f2ff;font-family:Lato, sans-serif}
+header{padding:14px 20px;background:rgba(0,0,0,.4);backdrop-filter:blur(6px);display:flex;justify-content:space-between;align-items:center}
+header a{color:#00f5d4;text-decoration:none;font-weight:600}
+main{max-width:1000px;margin:40px auto;padding:20px}
+h1,h2{font-family:Playfair Display}
+.card{background:rgba(6,17,38,.75);border-radius:14px;padding:20px;margin-bottom:30px;box-shadow:0 8px 25px rgba(0,0,0,.5)}
+label{display:block;margin-top:8px}
+canvas{width:100%;height:220px;background:#000;border-radius:8px}
+.btn{padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:700;margin-top:8px}
+.btn-primary{background:linear-gradient(90deg,#00f5d4,#7fffd4);color:#002020}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:white}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html">← Back to Home</a>
+  <h1>Beginner Zone</h1>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Facts</h2>
+    <p>The <b>Kepler mission</b> (launched 2009) collected high-precision photometric data for years, revealing thousands of transiting exoplanets.  
+    Later, the <b>K2 mission</b> repurposed Kepler to scan different fields along the ecliptic.  
+    Since 2018, <b>TESS</b> (Transiting Exoplanet Survey Satellite) has surveyed almost the entire sky, continuing the transit-based search for worlds around nearby stars.</p>
+  </section>
+
+  <section class="card">
+    <h2>Transit Demo</h2>
+    <p>Adjust planet size and noise to see how transits appear in a light curve.</p>
+    <canvas id="transitCanvas"></canvas>
+    <label>Planet size <input id="planetSize" type="range" min="0.02" max="0.5" step="0.01" value="0.12"></label>
+    <label>Noise <input id="noise" type="range" min="0" max="0.08" step="0.001" value="0.02"></label>
+  </section>
+
+  <section class="card">
+    <h2>Planet or Pizza — Game</h2>
+    <canvas id="gameCanvas"></canvas>
+    <div>
+      <button class="btn btn-primary" onclick="answerGame(true)">Planet</button>
+      <button class="btn btn-ghost" onclick="answerGame(false)">Pizza</button>
+    </div>
+    <p>Score: <span id="gameScore">0</span></p>
+  </section>
+</main>
+
+<script>
+function fixCanvas(c){const r=window.devicePixelRatio||1;c.width=c.clientWidth*r;c.height=c.clientHeight*r;}
+const transitCanvas=document.getElementById('transitCanvas');
+const gameCanvas=document.getElementById('gameCanvas');
+fixCanvas(transitCanvas);fixCanvas(gameCanvas);
+window.addEventListener('resize',()=>{fixCanvas(transitCanvas);fixCanvas(gameCanvas);drawTransit();drawGame();});
+
+function generateLightCurve(n=300,ps=0.12,noise=0.02,period=50){
+ const flux=new Float32Array(n);
+ for(let i=0;i<n;i++)flux[i]=1+(Math.random()-.5)*noise;
+ for(let t=30;t<n;t+=Math.round(period)){
+   const dur=Math.max(3,Math.round(8*ps*5));
+   for(let d=0;d<dur&&(t+d)<n;d++){
+     const depth=Math.max(.0005,ps*0.02);
+     const rel=1-Math.abs((d-dur/2)/(dur/2));
+     flux[t+d]-=depth*(.6+.4*rel);
+   }
+ }
+ return flux;
+}
+function drawLC(c,flux){
+ const ctx=c.getContext('2d'),w=c.width,h=c.height;
+ ctx.clearRect(0,0,w,h);
+ let min=Math.min(...flux),max=Math.max(...flux);
+ min=Math.min(min,.98);max=Math.max(max,1.02);
+ ctx.beginPath();
+ flux.forEach((v,i)=>{
+  const x=i/(flux.length-1)*w;
+  const y=((max-v)/(max-min))*h*0.85+h*0.07;
+  i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+ });
+ ctx.strokeStyle='cyan';ctx.lineWidth=2*(window.devicePixelRatio||1);ctx.stroke();
+}
+const psInput=document.getElementById('planetSize');
+const nInput=document.getElementById('noise');
+function drawTransit(){drawLC(transitCanvas,generateLightCurve(300,parseFloat(psInput.value),parseFloat(nInput.value),50));}
+psInput.oninput=nInput.oninput=drawTransit;drawTransit();
+
+let gEx=[],gTruth=[],gIdx=0,gScore=0;
+function genGame(){
+ gEx=[];gTruth=[];
+ for(let k=0;k<8;k++){
+   const tr=k%2===0;
+   gEx.push(generateLightCurve(220,tr?(.08+Math.random()*0.22):(.02+Math.random()*0.03),.02+Math.random()*0.03,70+Math.random()*40));
+   gTruth.push(tr);
+ }
+}
+function drawGame(){if(!gEx.length)genGame();drawLC(gameCanvas,gEx[gIdx]);document.getElementById('gameScore').textContent=gScore;}
+function answerGame(choice){if(choice===gTruth[gIdx])gScore++;gIdx=(gIdx+1)%gEx.length;drawGame();}
+genGame();drawGame();
+</script>
+</body>
+</html>

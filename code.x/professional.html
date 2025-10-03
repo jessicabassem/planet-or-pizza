@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Professional Research Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {
+      font-family: 'Inter', sans-serif;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* VIDEO BACKGROUND */
+    .video-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.5);
+    }
+
+    header {
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    nav a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #ddd;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav a:hover {color: #4dd0e1;}
+
+    main {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 3rem;
+      gap: 4rem;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-family: 'Orbitron', sans-serif;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    /* Circles */
+    .circle-container {
+      display: flex;
+      gap: 5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .circle {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.5), rgba(173,216,230,0.3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.4s, box-shadow 0.4s;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 0 20px rgba(173,216,230,0.4);
+    }
+    .circle:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 40px rgba(173,216,230,0.7);
+    }
+
+    /* Slide-up cards */
+    .slide-card {
+      position: fixed;
+      bottom: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 900px;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 2rem;
+      border-radius: 1rem 1rem 0 0;
+      transition: bottom 0.6s ease;
+      z-index: 10;
+      color: #fff;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .slide-card.active {
+      bottom: 0;
+    }
+    .slide-card h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    /* Upload/Detect Buttons */
+    .upload-btn, .detect-btn, .lime-btn {
+      background: linear-gradient(45deg, #4dd0e1, #81d4fa);
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+    .upload-btn:hover, .detect-btn:hover, .lime-btn:hover {
+      opacity: 0.8;
+    }
+
+    .results-box {
+      margin-top: 1rem;
+      text-align: center;
+      padding: 1rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    /* Insights Sections */
+    .info-section {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: rgba(255,255,255,0.05);
+      padding: 1rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .info-section img {
+      width: 180px;
+      height: auto;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    .info-text {
+      flex: 1;
+    }
+    .info-text h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #4dd0e1;
+    }
+    .info-text p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #ddd;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Background Video -->
+<video class="video-bg" autoplay muted loop playsinline>
+  <source src="vecteezy_abstract-realistic-space-planet-round-sphere-with-a-stone_24678487.mp4" type="video/mp4"/>
+</video>
+
+<header>
+  <h1>ExoExplorer</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="beginners.html">Beginners</a>
+    <a href="professional.html" style="color:#4dd0e1;">Professional</a>
+    <a href="contact.html">Contact Us</a>
+  </nav>
+</header>
+
+<main>
+  <div class="page-title">Professional Research Tools</div>
+  <div class="circle-container">
+    <div class="circle" id="circle-detector">Planet Detector</div>
+    <div class="circle" id="circle-insights">Pizza vs Planet Insights</div>
+  </div>
+</main>
+
+<!-- Planet Detector Card -->
+<div class="slide-card" id="detector-card">
+  <button class="close-btn" onclick="closeCard('detector-card')">✕</button>
+  <h2>AI Planet Detector</h2>
+  <div class="card-content">
+    <label class="upload-btn" for="upload-input">Upload Image</label>
+    <input type="file" id="upload-input" accept="image/*"/>
+    <button class="upload-btn" onclick="useCamera()">Take Photo</button>
+    <button class="detect-btn" onclick="runDetection()">Run Detection</button>
+    <div class="results-box" id="results-box">
+      <p>No detection yet.</p>
+    </div>
+    <button class="lime-btn" onclick="showLIME()">Explain with LIME</button>
+  </div>
+</div>
+
+<!-- Insights Card -->
+<div class="slide-card" id="insights-card">
+  <button class="close-btn" onclick="closeCard('insights-card')">✕</button>
+  <h2>Pizza vs Planet Insights</h2>
+  <div class="card-content">
+    <div class="info-section">
+      <img src="Screenshot 2025-10-04 010912.png" alt="LIME heatmap"/>
+      <div class="info-text">
+        <h3>LIME Explanation</h3>
+        <p>LIME highlights the exact pixel regions the CNN focused on to decide whether the object is a planet or a pizza. Brighter areas in the heatmap reveal strong influence on the prediction.</p>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <img src="Screenshot 2025-10-04 010937.png" alt="Uncertainty chart"/>
+      <div class="info-text">
+        <h3>Uncertainty Analysis</h3>
+        <p>Uncertainty estimates show how confident the model is about its decision. Low uncertainty means stable predictions, while high uncertainty suggests the need for expert review.</p>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <img src="Screenshot 2025-10-04 010925.png" alt="Confidence score gauge"/>
+      <div class="info-text">
+        <h3>Confidence Score</h3>
+        <p>The confidence score quantifies how sure the model is. A score above 90% typically indicates strong reliability in detection.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Show cards
+  document.getElementById('circle-detector').addEventListener('click', () => {
+    document.getElementById('detector-card').classList.add('active');
+  });
+  document.getElementById('circle-insights').addEventListener('click', () => {
+    document.getElementById('insights-card').classList.add('active');
+  });
+
+  function closeCard(id) {
+    document.getElementById(id).classList.remove('active');
+  }
+
+  // Placeholder JS
+  function useCamera() {
+    alert("Camera capture feature coming soon!");
+  }
+
+  function runDetection() {
+    const results = document.getElementById('results-box');
+    results.innerHTML = `
+      <p><strong>Result:</strong> Planet Detected</p>
+      <p><strong>Confidence Score:</strong> 94.7%</p>
+      <p><strong>Uncertainty:</strong> Low</p>
+    `;
+  }
+
+  function showLIME() {
+    alert("LIME explanation heatmap will be displayed here.");
+  }
+</script>
+
+</body>
+</html>
