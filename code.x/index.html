@@ -143,6 +143,28 @@
       font-size:1.1rem;border-radius:8px;color:#fff;cursor:pointer;
     }
 
+    /* Hidden Options for Get Started */
+    #startOptions {
+      display: none;
+      margin-top: 1.5rem;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .start-option {
+      background: linear-gradient(to right, rgba(255,255,255,0.25), rgba(173,216,230,0.25));
+      padding: 0.7rem 2rem;
+      border-radius: 30px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(3px);
+    }
+    .start-option:hover {
+      background: linear-gradient(to right, rgba(255,255,255,0.4), rgba(173,216,230,0.4));
+      color: #00aaff;
+    }
+
     /* TEAM */
     .team-members{
       display:flex;justify-content:center;flex-wrap:wrap;gap:2rem;margin-top:2rem;
@@ -156,7 +178,7 @@
       border-radius:8px;margin-bottom:1rem;
     }
 
-    /* USER ANALYSIS STYLING */
+    /* USER ANALYSIS */
     .analysis-card{
       background:rgba(0,0,50,0.4);
       flex:1;min-width:200px;
@@ -179,11 +201,8 @@
       color:#fff;
     }
 
-    /* FAQ STYLING */
-    .faq-item{
-      border-bottom:1px solid rgba(255,255,255,0.2);
-      margin-bottom:1rem;
-    }
+    /* FAQ */
+    .faq-item{border-bottom:1px solid rgba(255,255,255,0.2);margin-bottom:1rem;}
     .faq-question{
       font-weight:500;
       padding:1rem 0;
@@ -205,14 +224,10 @@
       font-size:0.8rem;
       transition:transform 0.3s;
     }
-    .faq-item.active .faq-arrow{
-      transform:rotate(180deg);
-    }
-    .faq-item.active .faq-answer{
-      display:block;
-    }
+    .faq-item.active .faq-arrow{transform:rotate(180deg);}
+    .faq-item.active .faq-answer{display:block;}
 
-    /* NASA STYLE FOOTER */
+    /* FOOTER */
     footer{
       background:#0b0c2a;
       color:#ccc;
@@ -239,8 +254,8 @@
     <h1>Planet or Pizza</h1>
     <ul>
       <li><a href="#home">Home</a></li>
-      <li><a href="#beginner">Beginners</a></li>
-      <li><a href="#professional">Professional</a></li>
+      <li><a href="beginners.html">Beginners</a></li>
+      <li><a href="professional.html">Professional</a></li>
       <li><a href="#contact">Contact Us</a></li>
     </ul>
   </nav>
@@ -256,7 +271,7 @@
     </div>
   </section>
 
-  <!-- PAGE LINKS UNDER HERO -->
+  <!-- PAGE LINKS -->
   <div class="page-links">
     <a href="#who-we-are">Who We Are</a>
     <a href="#user-analysis">User Analysis</a>
@@ -297,23 +312,19 @@
   </section>
 
   <!-- USER ANALYSIS -->
-  <!-- USER ANALYSIS -->
-<section class="dark-section" id="user-analysis">
-  <div class="center-title"><div class="section-title">User Analysis</div></div>
-  <div style="display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;">
-    <div class="analysis-card">
-      <!-- Only numeric value in data-target -->
-      <div class="analysis-number" data-target="55000" data-format="comma">0</div>
-      <div class="analysis-label">Target Users</div>
+  <section class="dark-section" id="user-analysis">
+    <div class="center-title"><div class="section-title">User Analysis</div></div>
+    <div style="display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;">
+      <div class="analysis-card">
+        <div class="analysis-number" data-target="55000" data-format="comma">0</div>
+        <div class="analysis-label">Target Users</div>
+      </div>
+      <div class="analysis-card">
+        <div class="analysis-number" data-target="97.2" data-format="percent">0%</div>
+        <div class="analysis-label">AI Models Accuracy</div>
+      </div>
     </div>
-    <div class="analysis-card">
-      <!-- Only numeric value in data-target -->
-      <div class="analysis-number" data-target="97.2" data-format="percent">0%</div>
-      <div class="analysis-label">AI Models Accuracy</div>
-    </div>
-  </div>
-</section>
-
+  </section>
 
   <!-- FAQ -->
   <section class="dark-section" id="faq">
@@ -342,7 +353,7 @@
     </div>
   </section>
 
-  <!-- CTA with VIDEO -->
+  <!-- CTA -->
   <section class="cta" id="cta">
     <video autoplay muted loop>
       <source src="vecteezy_the-earth-moon-and-sun-in-starry-space_11038661.mp4" type="video/mp4">
@@ -350,7 +361,15 @@
     <div class="cta-content">
       <h2>Join Our Mission</h2>
       <p>Be part of the next leap in AI-powered space exploration.</p>
-      <button>Get Started</button>
+
+      <!-- Get Started Button -->
+      <button id="getStartedBtn">Get Started</button>
+
+      <!-- Hidden Options -->
+      <div id="startOptions">
+        <a href="beginners.html" class="start-option">Beginners</a>
+        <a href="professional.html" class="start-option">Professional</a>
+      </div>
     </div>
   </section>
 
@@ -361,12 +380,12 @@
       <div class="member">
         <img src="khalid.png" alt="">
         <h3>khalid Osam</h3>
-        <p>web Developer</p>
+        <p>Web Developer</p>
       </div>
       <div class="member">
         <img src="mariam.png" alt="">
         <h3>Mariam Mohamed</h3>
-        <p>AR & gmae Developer</p>
+        <p>AR & Game Developer</p>
       </div>
       <div class="member">
         <img src="mary.png" alt="">
@@ -375,8 +394,8 @@
       </div>
       <div class="member">
         <img src="abdallah.png" alt="">
-        <h3>Abdallah Alzainy </h3>
-        <p>Data Analysis </p>
+        <h3>Abdallah Alzainy</h3>
+        <p>Data Analysis</p>
       </div>
       <div class="member">
         <img src="me.png" alt="">
@@ -390,67 +409,63 @@
   <footer>
     <div>
       <h4>Planet or Pizza</h4>
-      <p>Exploring beyond our solar system and bridging education with AI innovation.</p>
+      <p>Exploring beyond our solar system and bridging trust between AI and humans in exoplanet discoveries.</p>
     </div>
-
     <div>
-      <h4>Navigate</h4>
+      <h4>Quick Links</h4>
       <a href="#home">Home</a>
-      <a href="#beginner">Beginners</a>
-      <a href="#professional">Professional</a>
-      <a href="#contact">Contact Us</a>
+      <a href="#who-we-are">Who We Are</a>
+      <a href="#user-analysis">User Analysis</a>
+      <a href="#faq">FAQ</a>
+      <a href="#team">Team</a>
     </div>
-
     <div>
-      <h4>Resources</h4>
-      <a href="#">Research Papers</a>
-      <a href="#">Data & Datasets</a>
-      <a href="#">AR Tools</a>
-      <a href="#">AI Models</a>
-      <a href="#">Press & Media</a>
+      <h4>Contact</h4>
+      <p>Email: planetorpizza@example.com</p>
+      <p>Phone: +1 234 567 890</p>
     </div>
-
-    <div>
-      <h4>Connect</h4>
-      <a href="#">Follow on X</a>
-      <a href="#">YouTube</a>
-      <a href="#">Instagram</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Contact Us</a>
+    <div class="full-width">
+      &copy; 2025 Planet or Pizza. All Rights Reserved.
     </div>
-
-    <div class="full-width">&copy; 2025 Planet or Pizza. All Rights Reserved.</div>
   </footer>
 
   <script>
-    // Counter animation for User Analysis
-    const counters = document.querySelectorAll('.analysis-number');
-    counters.forEach(counter => {
-      const updateCount = () => {
-        const target = +counter.getAttribute('data-target');
-        const count = +counter.innerText;
-        const increment = target / 200;
-        if(count < target){
-          counter.innerText = Math.ceil(count + increment);
-          requestAnimationFrame(updateCount);
-        } else { counter.innerText = target; }
-      };
-      const observer = new IntersectionObserver(entries => {
-        if(entries[0].isIntersecting){
-          updateCount();
-          observer.disconnect();
-        }
-      }, { threshold: 0.5 });
-      observer.observe(counter);
+    // FAQ Toggle
+    document.querySelectorAll('.faq-question').forEach(q=>{
+      q.addEventListener('click',()=>{
+        q.parentElement.classList.toggle('active');
+      });
     });
 
-    // FAQ toggle
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-      const question = item.querySelector('.faq-question');
-      question.addEventListener('click', () => {
-        item.classList.toggle('active');
-      });
+    // Get Started Button: show/hide options
+    const getStartedBtn = document.getElementById('getStartedBtn');
+    const startOptions = document.getElementById('startOptions');
+    startOptions.style.display = 'none';  
+
+    getStartedBtn.addEventListener('click', () => {
+      startOptions.style.display = startOptions.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Animate User Analysis numbers
+    document.querySelectorAll('.analysis-number').forEach(num=>{
+      const target=parseFloat(num.dataset.target);
+      const format=num.dataset.format;
+      let count=0;
+      const increment=target/200;
+      const interval=setInterval(()=>{
+        count+=increment;
+        if(count>=target){
+          count=target;
+          clearInterval(interval);
+        }
+        if(format==='percent'){
+          num.textContent=count.toFixed(1)+'%';
+        }else if(format==='comma'){
+          num.textContent=Math.floor(count).toLocaleString();
+        }else{
+          num.textContent=Math.floor(count);
+        }
+      },15);
     });
   </script>
 </body>
